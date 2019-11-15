@@ -12,3 +12,33 @@
 #bottom-nav {
   border-top: solid black 2px;
 }
+
+#splitter-root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#splitter-root h1,
+#splitter-root h2 {
+  margin: 4px;
+}
+
+#splitter-root input {
+  margin: 8px;
+  height: 42px;
+  font-size: 32px;
+  color: #ddd;
+  background: #222;
+}
+
+.split-button {
+  width: 64px;
+  height: 64px;
+  border: solid white 4px;
+  border-radius: 50%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
