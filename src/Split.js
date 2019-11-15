@@ -1,4 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
+import bStorage from "./Backend";
+
+function splitIt() {
+  let choice = Math.floor(Math.random() * 2);
+  bStorage.setSplit("XXX", "ZZZ", choice);
+}
 
 export default () => {
   return (
@@ -11,7 +17,10 @@ export default () => {
       <input type="text" defaultValue="Take a Chance" />
       <p>In another I will:</p>
       <input type="text" defaultValue="Play it Safe" />
-      <span className="split-button">Split</span>
+
+      <span className="split-button" onClick={() => splitIt()}>
+        Split
+      </span>
     </div>
   );
 };

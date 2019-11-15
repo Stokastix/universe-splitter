@@ -4,6 +4,8 @@ import Chart from "./Chart";
 import Stats from "./Stats";
 import "./App.css";
 
+import SignIn from "./SignIn";
+
 function App() {
   const [view, setView] = useState("split");
   return (
@@ -15,6 +17,7 @@ function App() {
         <button onClick={() => setView("split")}>Split</button>
         <button onClick={() => setView("chart")}>Chart</button>
         <button onClick={() => setView("stats")}>Stats</button>
+        <SignIn />
       </div>
     </div>
   );
