@@ -4,7 +4,7 @@ import bStorage from "./Backend";
 function splitIt(x, y) {
   console.log(x, y);
   let choice = Math.floor(Math.random() * 2);
-  bStorage.setSplit("XXX", "ZZZ", choice);
+  bStorage.setSplit(x, y, choice);
 }
 
 export default () => {
