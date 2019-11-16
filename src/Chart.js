@@ -1,45 +1,59 @@
-import React from "react";
+import React, {Component} from "react";
 import Graph from "react-graph-vis";
+import { tsConstructorType } from "@babel/types";
 
-export default () => {
-    const graph = {
-        nodes: [
-          { id: "1", label: "Choice 1", title: "node 1 tootip text" },
-          { id: "2", label: "Outcome 2", title: "node 2 tootip text" },
-          { id: "3", label: "Outcome 1", title: "node 3 tootip text" },
-          { id: "4", label: "Node 4", title: "node 4 tootip text" },
-          { id: "5", label: "Node 5", title: "node 5 tootip text" }
-        ],
-        edges: [
-          { from: "1", to: "2" },
-          { from: "1", to: "3" },
-          { from: "2", to: "4" },
-          { from: "2", to: "5" }
-        ]
-      };
-     
-      const options = {
-        layout: {
-          hierarchical: {
-            direction: "UD"
-          }
-        },
-        edges: {
-          color: "#000000"
-        },
-        height: "500px"
-      };
-     
-      const events = {
-        select: function(event) {
-          var { nodes, edges } = event;
-        }
-      };
+class Chart extends Component {
+    constructor(props){
+      super(props)
+    }
+
+    componentDidMount() {
+    }
+  
+    render(){
       return (
-        <Graph
-          graph={graph}
-          options={options}
-          events={events}
-        />
+        <svg width="100%" height="100%">
+          <rect width="100%" height="100%" fill="black"/>
+          <g style={{transform: 'translate(50%, 50%) scale(20,20) '}}>
+            <text x="0" y="0" height="1" style={{fontSize: "0.8px"}} dominantBaseline="baseline" textAnchor="middle" fill="green">Root Node</text>    
+          
+            <g>
+              <line x1="0" y1="1" x2="0" y2="2" stroke="green" strokeWidth="0.2" />
+
+              <line x1="0" y1="2" x2="1" y2="3" stroke="green" strokeWidth="0.2" />
+              <text x="1" y="3" height="1" style={{fontSize: "0.8px"}}  dominantBaseline="baseline" textAnchor="start" fill="green">Outcome 1</text>
+
+              <line x1="0" y1="2" x2="-1" y2="3" stroke="green" strokeWidth="0.2" />
+              <text x="-1" y="3" height="1" style={{fontSize: "0.8px"}} dominantBaseline="baseline" textAnchor="end" fill="green">Outcome 2</text>
+
+              <g>
+                <line x1="1" y1="3" x2="1" y2="4" stroke="green" strokeWidth="0.2" />
+
+                <line x1="1" y1="4" x2="2" y2="5" stroke="green" strokeWidth="0.2" />
+                <text x="2" y="5" height="1" style={{fontSize: "0.8px"}}  dominantBaseline="baseline" textAnchor="start" fill="green">Outcome 1</text>
+
+                <line x1="1" y1="4" x2="0" y2="5" stroke="green" strokeWidth="0.2" />
+                <text x="0" y="5" height="1" style={{fontSize: "0.8px"}} dominantBaseline="baseline" textAnchor="end" fill="green">Outcome 2</text>
+
+                <g>
+                  <line x1="0" y1="5" x2="0" y2="6" stroke="green" strokeWidth="0.2" />
+
+                  <line x1="0" y1="6" x2="1" y2="7" stroke="green" strokeWidth="0.2" />
+                  <text x="1" y="7" height="1" style={{fontSize: "0.8px"}}  dominantBaseline="baseline" textAnchor="start" fill="green">Outcome 1</text>
+
+                  <line x1="0" y1="6" x2="-1" y2="7" stroke="green" strokeWidth="0.2" />
+                  <text x="-1" y="7" height="1" style={{fontSize: "0.8px"}} dominantBaseline="baseline" textAnchor="end" fill="green">Outcome 2</text>
+
+                </g>
+
+              </g>
+
+            </g>
+
+          </g>
+      </svg>
       );
+    }
 }
+
+export default Chart;
