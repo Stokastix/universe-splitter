@@ -30,6 +30,20 @@ class Chart extends Component {
           <Dot cx={props.x}  cy={props.y} />
         </g>;
 
+      const Split = props =>
+        <g>
+          <Jonction x={props.x} y={props.y} />
+          <Outcome x={props.x+1} y={props.y+2} textAnchor="start">{props.option[0]}</Outcome>
+          <Outcome x={props.x-1} y={props.y+2} textAnchor="end">{props.option[1]}</Outcome>
+        </g>
+
+      
+      const dataNodes = [
+        <Split x={0} y={1} option={["AA", "BB"]}/>,
+        <Split x={1} y={3} option={["XYZ", "UVW"]}/>,
+        <Split x={0} y={5} option={["XYZ", "UVW"]}/>,
+        <Split x={1} y={7} option={["XYZ", "UVW"]}/>
+      ]
 
       return (
         <svg width="100%" height="100%">
@@ -43,25 +57,11 @@ class Chart extends Component {
             </filter>
           </defs>
 
-
           <rect width="100%" height="100%" fill="black"/>
           
           <g style={{transform: 'translate(50%, 50%) scale(20,20) '}}>
-            <Outcome x="0" y="0">Root Node</Outcome>    
-          
-            <Jonction x={0} y={1} />
-            <Outcome x="1" y="3" textAnchor="start">Outcome 1 </Outcome>
-            <Outcome x="-1" y="3" textAnchor="end">Outcome 2 </Outcome>
-
-            <Jonction x={1} y={3} />
-            <Outcome x="2" y="5" textAnchor="start">Outcome 1</Outcome>
-            <Outcome x="0" y="5" textAnchor="end">Outcome 1</Outcome>
-
-            <Jonction x={0} y={5} />
-            <Outcome x="1" y="7" textAnchor="start">Outcome 1</Outcome>
-            <Outcome x="-1" y="7" textAnchor="end">Outcome 1</Outcome>
-            
-
+            <Outcome x="0" y="0">Root Node</Outcome>
+            { dataNodes }
           </g>
       </svg>
       );
