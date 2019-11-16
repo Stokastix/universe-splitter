@@ -1,10 +1,16 @@
 import React, {Component} from "react";
-import Graph from "react-graph-vis";
-import { tsConstructorType } from "@babel/types";
 
 class Chart extends Component {
     constructor(props){
       super(props)
+
+      this.data = [
+        {options:["XYZ", "UVW"], selectedOption: 0},
+        {options:["XYZ", "UVW"], selectedOption: 1},
+        {options:["XYZ", "UVW"], selectedOption: 0},
+        {options:["XYZ", "UVW"], selectedOption: 1},
+        {options:["XYZ", "UVW"], selectedOption: 1}
+      ];
     }
 
     componentDidMount() {
@@ -38,12 +44,12 @@ class Chart extends Component {
         </g>
 
       
-      const dataNodes = [
-        <Split x={0} y={1} option={["AA", "BB"]}/>,
-        <Split x={1} y={3} option={["XYZ", "UVW"]}/>,
-        <Split x={0} y={5} option={["XYZ", "UVW"]}/>,
-        <Split x={1} y={7} option={["XYZ", "UVW"]}/>
-      ]
+      var pos = 0;
+      const dataNodes2 = this.data.map( function(item, i) {
+        let res = <Split key={i} x={pos} y={1+2*i} option={item.options}/>;
+        pos = (item.selectedOption === 1) ? (pos+1) : (pos-1);
+        return res;
+      });
 
       return (
         <svg width="100%" height="100%">
@@ -61,7 +67,7 @@ class Chart extends Component {
           
           <g style={{transform: 'translate(50%, 50%) scale(20,20) '}}>
             <Outcome x="0" y="0">Root Node</Outcome>
-            { dataNodes }
+            { dataNodes2 }
           </g>
       </svg>
       );
