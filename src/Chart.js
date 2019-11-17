@@ -1,24 +1,15 @@
 import React, {Component} from "react";
+import bStorage from "./Backend";
 
 class Chart extends Component {
     constructor(props){
       super(props)
+      this.state = {data: []};
 
-      this.data = [
-        {options:["XYZ", "UVW"], selectedOption: 0},
-        {options:["XYZ", "UVW"], selectedOption: 1},
-        {options:["Option 1", "Option 2"], selectedOption: 0},
-        {options:["XYZ", "UVW"], selectedOption: 1},
-        {options:["XYZ", "UVW"], selectedOption: 1},
-        {options:["XYZ", "UVW"], selectedOption: 1},
-        {options:["XYZ", "UVW"], selectedOption: 0},
-        {options:["XYZ", "UVW"], selectedOption: 1}
-      ];
+      bStorage.getLastSplits(10, docs => {
+        this.setState({data: Object.values(docs).reverse()});
+      });
     }
-
-    componentDidMount() {
-    }
-  
 
     render(){
       const Outcome = props =>
@@ -48,7 +39,7 @@ class Chart extends Component {
 
       
       var pos = 0;
-      const dataNodes2 = this.data.map( function(item, i) {
+      const dataNodes = this.state.data.map( function(item, i) {
         let res = <Split key={i} x={pos} y={1+2*i} option={item.options}/>;
         pos = (item.selectedOption === 1) ? (pos+1) : (pos-1);
         return res;
@@ -68,7 +59,7 @@ class Chart extends Component {
           <rect width="100%" height="100%" fill="black"/>
           <g style={{transform: 'translate(50%, 10%) scale(20,20) '}}>
             <Outcome x="0" y="0">Start U-Splitter</Outcome>
-            { dataNodes2 }
+            { dataNodes }
           </g>
       </svg>
       );

@@ -22,7 +22,6 @@ class backendStorage {
 	constructor(){
 		firebase.auth().onAuthStateChanged((user) => {
 			if (user) {
-				console.log("User Connected");
 				this.setUserId(user.uid);
 			} 
 		});
@@ -31,6 +30,7 @@ class backendStorage {
 	setUserId(userId) {
 		this.userCollection = db.collection('Users').doc(userId)
 		this.splitsRef = this.userCollection.collection("splits");
+		console.log("User Connected");
 	}
 
 	getLastSplits(n, callback) {
@@ -41,8 +41,11 @@ class backendStorage {
 			if (snapshot.empty) {
 				console.log('No matching documents.');
 				return;
-			} 
-			snapshot.forEach(doc => callback(doc.id, doc.data()) );
+			}
+			
+			var docs = Object()
+			snapshot.forEach(doc => docs[doc.id] = doc.data() );
+			callback(docs);
 		})
 		.catch(err => console.log('Error getting documents', err) );
 	}
@@ -87,9 +90,9 @@ class backendStorage {
 
 let bStorage = new backendStorage();
 export default bStorage;
+
 /* Examples:
 
-bStorage.getLastSplits(10, (id,data) => {console.log(id,"=>",data);});
 bStorage.setSplit("ABC", "XYZ", 1);
 bStorage.delSplit("ztJeSQXkMUOUkCKSiydV");
 */
