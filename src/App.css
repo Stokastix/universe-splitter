@@ -1,7 +1,7 @@
 .App {
   width: 100%;
   height: 100%;
-  background: #666;
+  background: #444;
 
   text-align: center;
   display: flex;
@@ -14,13 +14,21 @@
 }
 
 #splitter-root {
+  background-color: #444;
+  background-image: url("https://www.transparenttextures.com/patterns/inspiration-geometry.png");
+  /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+
+  flex: 1 0 0px;
+  overflow: auto;
+
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 #splitter-root h1,
-#splitter-root h2 {
+#splitter-root h2,
+#splitter-root p {
   margin: 4px;
 }
 
@@ -30,15 +38,41 @@
   font-size: 32px;
   color: #ddd;
   background: #222;
+  width: 300px;
+  max-width: 90%;
+  color: #090;
+  text-shadow: 0px 0px 4px#090;
 }
 
 .split-button {
-  width: 64px;
-  height: 64px;
-  border: solid white 4px;
-  border-radius: 50%;
+  width: 300px;
+  max-width: 90%;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  margin-top: 16px;
 
   display: flex;
   flex-direction: column;
   justify-content: center;
+
+  cursor: pointer;
+
+  box-shadow: 0px 0px 4px#090;
+  background: #090;
+}
+
+.split-button:hover {
+  box-shadow: 0px 0px 6px#0b0;
+  background: #0b0;
+}
+
+.split-button:active {
+  box-shadow: 0px 0px 0px#0a0;
+  background: #050;
+}
+
+.show-split {
+  font-size: 32px;
+  color: #090;
+  text-shadow: 0px 0px 4px#090;
 }
