@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import bStorage from "./Backend";
+import DraggableG from "./DraggableG";
 
 const Chart = props => {
   const [data, setData] = useState([]);
@@ -53,11 +54,15 @@ const Chart = props => {
           <feGaussianBlur in="SourceGraphic" stdDeviation="0.1" />
         </filter>
       </defs>
+      
+<DraggableG>
       <rect width="100%" height="100%" fill="black"/>
-      <g style={{transform: 'translate(50%, 10%) scale(20,20) '}}>
-        <Outcome x="0" y="0">Start U-Splitter</Outcome>
-        { data }
-      </g>
+
+        <g style={{transform: 'translate(50%, 10%) scale(20,20) '}}>
+          <Outcome x="0" y="0">Start U-Splitter</Outcome>
+          { data }
+        </g>
+      </DraggableG>
   </svg>
   );
     
