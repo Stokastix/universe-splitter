@@ -7,8 +7,11 @@ class Chart extends Component {
       this.data = [
         {options:["XYZ", "UVW"], selectedOption: 0},
         {options:["XYZ", "UVW"], selectedOption: 1},
-        {options:["XYZ", "UVW"], selectedOption: 0},
+        {options:["Option 1", "Option 2"], selectedOption: 0},
         {options:["XYZ", "UVW"], selectedOption: 1},
+        {options:["XYZ", "UVW"], selectedOption: 1},
+        {options:["XYZ", "UVW"], selectedOption: 1},
+        {options:["XYZ", "UVW"], selectedOption: 0},
         {options:["XYZ", "UVW"], selectedOption: 1}
       ];
     }
@@ -39,8 +42,8 @@ class Chart extends Component {
       const Split = props =>
         <g>
           <Jonction x={props.x} y={props.y} />
-          <Outcome x={props.x+1} y={props.y+2} textAnchor="start">{props.option[0]}</Outcome>
-          <Outcome x={props.x-1} y={props.y+2} textAnchor="end">{props.option[1]}</Outcome>
+          <Outcome x={props.x-1-0.5} y={props.y+2} textAnchor="end">{props.option[0]}</Outcome>
+          <Outcome x={props.x+1+0.4} y={props.y+2} textAnchor="start">{props.option[1]}</Outcome>
         </g>
 
       
@@ -62,11 +65,9 @@ class Chart extends Component {
               <feGaussianBlur in="SourceGraphic" stdDeviation="0.1" />
             </filter>
           </defs>
-
           <rect width="100%" height="100%" fill="black"/>
-          
-          <g style={{transform: 'translate(50%, 50%) scale(20,20) '}}>
-            <Outcome x="0" y="0">Root Node</Outcome>
+          <g style={{transform: 'translate(50%, 10%) scale(20,20) '}}>
+            <Outcome x="0" y="0">Start U-Splitter</Outcome>
             { dataNodes2 }
           </g>
       </svg>
