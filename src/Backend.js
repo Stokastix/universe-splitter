@@ -43,6 +43,8 @@ class backendStorage {
 				return;
 			}
 			
+			console.log("collecting documents...");
+
 			var docs = Object()
 			snapshot.forEach(doc => docs[doc.id] = doc.data() );
 			callback(docs);
