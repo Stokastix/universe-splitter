@@ -17,6 +17,9 @@ firebase.initializeApp(firebaseConfig);
 
 var db = firebase.firestore();
 
+db.enablePersistence()
+  .catch(function(err) {console.log("error enabling cache:", err);});
+
 class backendStorage {
   constructor() {
     firebase.auth().onAuthStateChanged(user => {
@@ -24,6 +27,18 @@ class backendStorage {
         this.setUserId(user.uid);
       }
     });
+    
+    this.enableNetwork(true);
+  }
+
+  enableNetwork(state){
+    if(state){
+      console.log("network enabled");
+      this.network = db.enableNetwork();
+    } else {
+      console.log("network disabled");
+      this.network = db.disableNetwork();
+    }
   }
 
   setUserId(userId) {
@@ -33,22 +48,27 @@ class backendStorage {
   }
 
   getLastSplits(n, callback) {
-    this.splitsRef
+    var that = this;
+    this.network.then( function(){
+      that.splitsRef
       .orderBy("timestamp", "desc")
       .get()
       .then(snapshot => {
         if (snapshot.empty) {
-          console.log("No matching documents.");
+          console.log('No matching documents.');
           return;
         }
-
-        console.log("collecting documents...");
-
-        var docs = Object();
-        snapshot.forEach(doc => (docs[doc.id] = doc.data()));
+        
+        console.log("collecting documents... (from cache:", snapshot.metadata.fromCache, ")");
+        var docs = Object()
+        snapshot.forEach(doc => docs[doc.id] = doc.data() );
         callback(docs);
+
+        that.enableNetwork(false);
       })
-      .catch(err => console.log("Error getting documents", err));
+      .catch(err => console.log('Error getting documents', err) );
+    });
+
   }
 
   getSplit(id, callback) {
@@ -74,9 +94,20 @@ class backendStorage {
       selectedOption: choice,
       timestamp: Date.now()
     };
-    this.splitsRef.add(data).catch(err => {
-      console.log("Error writing document", err);
-    });
+
+    this.enableNetwork(true);
+
+    var that = this;
+    this.network.then( function() {
+        that.splitsRef
+        .add(data)
+        .catch(err => {
+          console.log('Error writing document', err);
+        });
+
+        that.enableNetwork(false);
+      }
+    );
   }
 
   delSplit(id) {
