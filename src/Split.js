@@ -10,6 +10,7 @@ const Splitter = ({ setSplit }) => {
     const choice = Math.floor(Math.random() * 2);
     setSplit(choice > 0.5 ? x : y);
     bStorage.setSplit(x, y, choice);
+    bStorage.incrementUniverse();
   };
 
   return (
