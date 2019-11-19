@@ -103,3 +103,9 @@
   font-size: 200%;
   margin: 4px;
 }
+
+#chart-root {
+  background: #000;
+  flex: 1;
+  overflow: auto;
+}
