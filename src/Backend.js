@@ -18,6 +18,9 @@ firebase.initializeApp(firebaseConfig);
 
 var db = firebase.firestore();
 
+db.enablePersistence()
+  .catch(function(err) {console.log("error enabling cache:", err);});
+
 class backendStorage {
 	constructor(){
 		firebase.auth().onAuthStateChanged((user) => {
@@ -25,31 +28,36 @@ class backendStorage {
 				this.setUserId(user.uid);
 			} 
 		});
+
+		this.network = db.enableNetwork();
 	}
 
 	setUserId(userId) {
+		this.userId = userId;
 		this.userCollection = db.collection('Users').doc(userId)
 		this.splitsRef = this.userCollection.collection("splits");
 		console.log("User Connected");
 	}
 
 	getLastSplits(n, callback) {
-		this.splitsRef
-		.orderBy("timestamp", "desc")
-		.get()
-		.then(snapshot => {
-			if (snapshot.empty) {
-				console.log('No matching documents.');
-				return;
-			}
-			
-			console.log("collecting documents...");
-
-			var docs = Object()
-			snapshot.forEach(doc => docs[doc.id] = doc.data() );
-			callback(docs);
-		})
-		.catch(err => console.log('Error getting documents', err) );
+		const ref = this.splitsRef;
+		this.network.then( function(){
+			ref
+			.orderBy("timestamp", "desc")
+			.get()
+			.then(snapshot => {
+				if (snapshot.empty) {
+					console.log('No matching documents.');
+					return;
+				}
+				
+				console.log("collecting documents... (from cache:", snapshot.metadata.fromCache, ")");
+				var docs = Object()
+				snapshot.forEach(doc => docs[doc.id] = doc.data() );
+				callback(docs);
+			})
+			.catch(err => console.log('Error getting documents', err) );
+		});
 	}
 
 	getSplit(id, callback){
@@ -75,11 +83,15 @@ class backendStorage {
 			selectedOption: choice,
 			timestamp: Date.now()
 		};
-		this.splitsRef
-		.add(data)
-		.catch(err => {
-			console.log('Error writing document', err);
-		});
+		const ref = this.splitsRef;
+		this.network.then( function() {
+			ref
+			.add(data)
+			.catch(err => {
+				console.log('Error writing document', err);
+			});
+		}
+		);
 	}
 
 	delSplit(id){
