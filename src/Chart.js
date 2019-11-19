@@ -1,6 +1,5 @@
 import React from "react";
 import bStorage from "./Backend";
-import Draggable from "react-draggable";
 
 const Outcome = props => (
   <text

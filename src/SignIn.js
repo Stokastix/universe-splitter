@@ -9,6 +9,8 @@ class SignIn extends React.Component {
     this.state = {
       isSignedIn: false // Local signed-in state.
     };
+    this.setLoggedIn = props.setLoggedIn;
+
       // Configure FirebaseUI.
     this.uiConfig = {
       // Popup signin flow rather than redirect flow.
@@ -27,7 +29,10 @@ class SignIn extends React.Component {
   // Listen to the Firebase Auth state and set the local state.
   componentDidMount() {
     this.unregisterAuthObserver = firebase.auth().onAuthStateChanged(
-        (user) => this.setState({isSignedIn: !!user})
+        (user) => {
+          this.setState({isSignedIn: !!user});
+          this.setLoggedIn(!!user);
+        }
     );
   }
   
@@ -37,15 +42,10 @@ class SignIn extends React.Component {
   }
 
   render() {
-    if (!this.state.isSignedIn) {
-      return (
-          <StyledFirebaseAuth uiConfig={this.uiConfig} firebaseAuth={firebase.auth()}/>
-      );
-    }
+    const button = <StyledFirebaseAuth uiConfig={this.uiConfig} firebaseAuth={firebase.auth()} style={{backgroundColor:"blue"}} />;
     return (
-        <button onClick={() => firebase.auth().signOut()}>
-          Sign-out
-        </button>
+      <>{!this.state.isSignedIn && button}</>
+        
     );
   }
 }

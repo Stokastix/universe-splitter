@@ -1,5 +1,5 @@
 import React from "react";
-import SignIn from "./SignIn";
+import * as firebase from "firebase/app";
 
 export default ({ setView }) => {
   return (
@@ -7,7 +7,9 @@ export default ({ setView }) => {
       <button onClick={() => setView("split")}>Split</button>
       <button onClick={() => setView("chart")}>Chart</button>
       <button onClick={() => setView("stats")}>Stats</button>
-      <SignIn />
+      <button onClick={() => firebase.auth().signOut()}>
+          Sign-out
+      </button>
     </div>
   );
 };
