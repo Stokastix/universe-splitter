@@ -10,7 +10,14 @@
 }
 
 #bottom-nav {
+  height: 48px;
   border-top: solid black 2px;
+  display: flex;
+}
+
+#bottom-nav button {
+  flex: 1;
+  margin: 2px;
 }
 
 #splitter-root {
