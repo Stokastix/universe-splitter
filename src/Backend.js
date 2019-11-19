@@ -17,8 +17,9 @@ firebase.initializeApp(firebaseConfig);
 
 var db = firebase.firestore();
 
-db.enablePersistence()
-  .catch(function(err) {console.log("error enabling cache:", err);});
+db.enablePersistence().catch(function(err) {
+  console.log("error enabling cache:", err);
+});
 
 class backendStorage {
   constructor() {
@@ -27,12 +28,12 @@ class backendStorage {
         this.setUserId(user.uid);
       }
     });
-    
+
     this.enableNetwork(true);
   }
 
-  enableNetwork(state){
-    if(state){
+  enableNetwork(state) {
+    if (state) {
       console.log("network enabled");
       this.network = db.enableNetwork();
     } else {
@@ -49,26 +50,29 @@ class backendStorage {
 
   getLastSplits(n, callback) {
     var that = this;
-    this.network.then( function(){
+    this.network.then(function() {
       that.splitsRef
-      .orderBy("timestamp", "desc")
-      .get()
-      .then(snapshot => {
-        if (snapshot.empty) {
-          console.log('No matching documents.');
-          return;
-        }
-        
-        console.log("collecting documents... (from cache:", snapshot.metadata.fromCache, ")");
-        var docs = Object()
-        snapshot.forEach(doc => docs[doc.id] = doc.data() );
-        callback(docs);
+        .orderBy("timestamp", "desc")
+        .get()
+        .then(snapshot => {
+          if (snapshot.empty) {
+            console.log("No matching documents.");
+            return;
+          }
 
-        that.enableNetwork(false);
-      })
-      .catch(err => console.log('Error getting documents', err) );
+          console.log(
+            "collecting documents... (from cache:",
+            snapshot.metadata.fromCache,
+            ")"
+          );
+          var docs = Object();
+          snapshot.forEach(doc => (docs[doc.id] = doc.data()));
+          callback(docs);
+
+          that.enableNetwork(false);
+        })
+        .catch(err => console.log("Error getting documents", err));
     });
-
   }
 
   getSplit(id, callback) {
@@ -98,16 +102,13 @@ class backendStorage {
     this.enableNetwork(true);
 
     var that = this;
-    this.network.then( function() {
-        that.splitsRef
-        .add(data)
-        .catch(err => {
-          console.log('Error writing document', err);
-        });
+    this.network.then(function() {
+      that.splitsRef.add(data).catch(err => {
+        console.log("Error writing document", err);
+      });
 
-        that.enableNetwork(false);
-      }
-    );
+      that.enableNetwork(false);
+    });
   }
 
   delSplit(id) {
@@ -123,6 +124,17 @@ class backendStorage {
     const increment = firebase.firestore.FieldValue.increment(1);
     const universeRef = db.collection("Universes").doc("142857143");
     universeRef.update({ count: increment });
+  }
+
+  readUniverses(callback) {
+    const universeRef = db.collection("Universes").doc("142857143");
+    universeRef.get().then(doc => {
+      if (!doc.exists) {
+        console.log("No such document!");
+      } else {
+        callback(doc.data());
+      }
+    });
   }
 }
 
