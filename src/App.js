@@ -18,7 +18,7 @@ function App() {
         {view === "split" && <Split />}
         {view === "chart" && <Chart />}
         {view === "stats" && <Stats />}
-        <BottomNav setView={setView} />
+        <BottomNav setView={setView} setLoggedIn={setLoggedIn} />
       </div>
     );
   } else {

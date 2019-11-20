@@ -1,5 +1,6 @@
 import React from 'react';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import * as firebaseui from 'firebaseui'
 import * as firebase from "firebase/app";
 
 class SignIn extends React.Component {
@@ -17,7 +18,11 @@ class SignIn extends React.Component {
       signInFlow: 'popup',
       // We will display Google and Facebook as auth providers.
       signInOptions: [
-        firebase.auth.GoogleAuthProvider.PROVIDER_ID
+        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+        firebase.auth.EmailAuthProvider.PROVIDER_ID,
+        firebase.auth.PhoneAuthProvider.PROVIDER_ID,
+        firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
       ],
       callbacks: {
         // Avoid redirects after sign-in.
@@ -45,7 +50,7 @@ class SignIn extends React.Component {
     const button = <StyledFirebaseAuth uiConfig={this.uiConfig} firebaseAuth={firebase.auth()} style={{backgroundColor:"blue"}} />;
     return (
       <>{!this.state.isSignedIn && button}</>
-        
+  
     );
   }
 }
