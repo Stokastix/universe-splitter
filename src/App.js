@@ -25,7 +25,8 @@ function App() {
     return(
       <div className="App">
         <h1>
-          Spinning Electrons...
+          Spinning <br />Electrons <br/>
+          <span className="loader__dot">.</span><span className="loader__dot">.</span><span className="loader__dot">.</span>
         </h1>
         <SignIn setLoggedIn={setLoggedIn} />
       </div>
