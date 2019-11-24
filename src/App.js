@@ -15,24 +15,20 @@ function App() {
   if(loggedIn){
     return (
       <div className="App">
-        <div className="AppBorder">
-          {view === "split" && <Split />}
-          {view === "chart" && <Chart />}
-          {view === "stats" && <Stats />}
-          <BottomNav setView={setView} setLoggedIn={setLoggedIn} />
-          </div>
+        {view === "split" && <Split />}
+        {view === "chart" && <Chart />}
+        {view === "stats" && <Stats />}
+        <BottomNav setView={setView} setLoggedIn={setLoggedIn} />
       </div>
     );
   } else {
     return(
       <div className="App">
-        <div className="AppBorder">
         <h1>
           Spinning <br />Electrons <br/>
           <span className="loader__dot">.</span><span className="loader__dot">.</span><span className="loader__dot">.</span>
         </h1>
         <SignIn setLoggedIn={setLoggedIn} />
-        </div>
       </div>
     );
   }
