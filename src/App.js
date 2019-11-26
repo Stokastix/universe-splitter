@@ -5,6 +5,8 @@ import Stats from "./Stats";
 import BottomNav from "./BottomNav";
 import "./App.css";
 import SignIn from "./SignIn";
+import Settings from "./Settings";
+
 
 function App() {
   const [view, setView] = useState("split");
@@ -18,7 +20,8 @@ function App() {
         {view === "split" && <Split />}
         {view === "chart" && <Chart />}
         {view === "stats" && <Stats />}
-        <BottomNav setView={setView} setLoggedIn={setLoggedIn} />
+        {view === "settings" && <Settings setLoggedIn={setLoggedIn} />}
+        <BottomNav setView={setView} />
       </div>
     );
   } else {
